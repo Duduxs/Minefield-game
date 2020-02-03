@@ -47,28 +47,43 @@ public class TestField {
 	}
 
 	@Test
-	void goalAchivied() {
-
-		assertEquals(false, f1.goalAchieved());
-	}
-
-	@Test
 	void toStringMethodMark() {
 
 		f1.changeMark();
 		assertEquals("x", f1.toString());
 	}
-	
+
 	@Test
 	void toStringMethodOpen() {
 		f1.open();
 		assertEquals(" ", f1.toString());
 	}
-	
 
 	@Test
 	void toStringMethodElse() {
 		assertEquals("?", f1.toString());
+	}
+
+	@Test
+	void toStringMethodOpenAndMine() {
+		f1.open();
+		f1.setMine(true);
+		assertEquals("*", f1.toString());
+	}
+
+	@Test
+	void goalArchivedFielProtected() {
+		f1.changeMark();
+		f1.setMine(true);
+		assertEquals(true, f1.goalAchieved());
+
+	}
+
+	@Test
+	void goalArchivedFieldFound() {
+		f1.setMine(false);
+		f1.open();
+		assertEquals(false, f1.goalAchieved());
 	}
 
 }

@@ -11,7 +11,7 @@ public class Field {
 	private final int columns;
 
 	private boolean open;
-	private boolean mine ;
+	private boolean mine;
 	private boolean marked;
 
 	private List<Field> neighbor = new ArrayList<>();
@@ -30,24 +30,40 @@ public class Field {
 		return columns;
 	}
 
-	public boolean addNeighbor(Field neighbor) {
+	public boolean getOpen() {
+		return open;
+	}
+
+	public boolean getMine() {
+		return mine;
+	}
+
+	public void setMine(boolean b) {
+		mine = b;
+	}
+
+	public boolean getMarked() {
+		return marked;
+	}
+
+	public boolean addNeighbor(Field neighbors) {
 
 		// var which return true if the neighbor are in the diagonal, false if aren't.
-		boolean diagonal = rows != neighbor.rows && columns != neighbor.columns ? true : false;
+		boolean diagonal = rows != neighbors.rows && columns != neighbors.columns ? true : false;
 
 		// Distance between rows and columns and sum.
-		int distancerow = Math.abs(rows - neighbor.rows);
-		int distancecolumn = Math.abs(columns - neighbor.columns);
+		int distancerow = Math.abs(rows - neighbors.rows);
+		int distancecolumn = Math.abs(columns - neighbors.columns);
 		int distancesum = distancerow + distancecolumn;
 
-		// Neighbor are in the diagonal
-		if (distancesum == 2 && diagonal) {
-			neighbor.addNeighbor(neighbor);
+		// Neighbor are in the cross
+		if (distancesum == 1 && !diagonal) {
+			neighbor.add(neighbors);
 			return true;
 
-			// Neighbor are in the cross
-		} else if (distancesum == 1 && !diagonal) {
-			neighbor.addNeighbor(neighbor);
+			// Neighbor are in the diagonal
+		} else if (distancesum == 2 && diagonal) {
+			neighbor.add(neighbors);
 			return true;
 		}
 		// Not exists neighbor
@@ -68,7 +84,7 @@ public class Field {
 			open = true;
 
 			if (mine == true)
-				throw new minefieldException("You Lose!");
+				throw new minefieldException("You found a mine! You Lose!");
 
 			/*
 			 * Check if the neighbors are security Checking the list and not finding a mine.
@@ -81,13 +97,15 @@ public class Field {
 		} else
 			return false;
 	}
-	// This method represents ->  Being able to do an action without losing
+
+	// This method represents -> Being able to do an action without losing
 	public boolean goalAchieved() {
 		boolean fieldFound = mine == false && open == true;
 		boolean fieldProtected = mine == true && marked == true;
 		return fieldFound || fieldProtected;
 	}
-	//Count the mines in the neighbor
+
+	// Count the mines in the neighbor
 	public long mineInNeighbor() {
 		return neighbor.stream().filter(x -> x.mine).count();
 	}
