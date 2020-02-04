@@ -14,6 +14,11 @@ public class Field {
 	private boolean mine;
 	private boolean marked;
 
+	public static final String YELLOW = "\033[0;33m";
+	public static final String RED = "\033[0;31m";  
+	  public static final String GREEN_BRIGHT = "\033[0;92m";
+	public static final String RESET = "\033[0m"; 
+
 	private List<Field> neighbor = new ArrayList<>();
 
 	public Field(int rows, int colums) {
@@ -45,7 +50,7 @@ public class Field {
 	public boolean getMarked() {
 		return marked;
 	}
-	
+
 	void setOpen(boolean open) {
 		this.open = open;
 	}
@@ -78,9 +83,10 @@ public class Field {
 
 	public void changeMark() {
 		// Logic for input the flag, the field must be closed (false)
-		if (open == false)
-			marked = true;
+		if (open == false) 
+			marked = !marked;
 	}
+	
 
 	public boolean open() {
 		// Logic for open a field
@@ -124,13 +130,13 @@ public class Field {
 	public String toString() {
 
 		if (marked == true) {
-			return "x";
+			return YELLOW + "x" + RESET;
 		} else if (open == true && mine == true) {
-			return "*";
+			return RED + "*" + RESET;
 		} else if (open == true && mineInNeighbor() > 0) {
-			return Long.toString(mineInNeighbor());
+			return GREEN_BRIGHT + Long.toString(mineInNeighbor()) + RESET;
 		} else if (open == true) {
-			return " ";
+			return " "  ;
 		} else {
 			return "?";
 		}

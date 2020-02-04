@@ -10,6 +10,7 @@ public class UI {
 
 	private Board board;
 	Scanner keyboard = new Scanner(System.in);
+	public int qtdFlag = 10;
 
 	public UI(Board board) {
 		this.board = board;
@@ -34,7 +35,8 @@ public class UI {
 				int x = Integer.parseInt(value.substring(0, 1));
 				int y = Integer.parseInt(value.substring(2));
 
-				System.out.print("\n[1] - Open \n[2] - Mark/MarkOff \n[3] - Exit \n\n");
+				System.out.print("\n[1] - Open \n[2] - Mark/MarkOff \n[3] - Exit\n");
+				System.out.print("\nNumbers of flags: " + qtdFlag + "\n\n");
 				System.out.print("Value: ");
 				value = keyboard.next();
 
@@ -42,8 +44,10 @@ public class UI {
 
 				if ("1".equalsIgnoreCase(value))
 					board.open(x, y);
-				else if ("2".equalsIgnoreCase(value))
+				else if ("2".equalsIgnoreCase(value)) {
 					board.mark(x, y);
+					qtdFlag--;
+				}
 
 				else if ("3".equalsIgnoreCase(value))
 					throw new exitException("Thank you for playing!");
@@ -52,8 +56,8 @@ public class UI {
 
 		} catch (minefieldException e) {
 
-			System.out.println("\nYou found a mine! You Lose!");
 			System.out.println(board);
+			System.out.println("\nYou found a mine! You Lose!");
 			System.out.print("Do you want to play another match? (S/N): ");
 			String choose = keyboard.next().toUpperCase();
 
@@ -63,8 +67,10 @@ public class UI {
 				board.reload();
 				startGame();
 
-			} else { throw new exitException("Thank you for playing!"); }
-			
+			} else {
+				throw new exitException("Thank you for playing!");
+			}
+
 		} catch (StringIndexOutOfBoundsException e) {
 			System.out.println("\nSay two values for [x] and [y] in this format 0,0 !");
 		} catch (NumberFormatException e) {

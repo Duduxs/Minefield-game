@@ -13,6 +13,10 @@ public class Board {
 
 	private final List<Field> fields = new ArrayList<>();
 
+	public static final String CYAN = "\033[0;36m";  
+	public static final String RESET = "\033[0m"; 
+	public static final String GREEN = "\033[0;32m";   
+	
 	public Board(int rows, int columns, int mines) {
 		this.rows = rows;
 		this.columns = columns;
@@ -20,6 +24,8 @@ public class Board {
 		start();
 
 	}
+
+
 
 	/*
 	 * Search for a row and a column in my list using the values ​​of the passed
@@ -95,7 +101,7 @@ public class Board {
 		sb.append("  ");
 		for (int c = 0; c < columns; c++) {
 			sb.append(" ");
-			sb.append(c);
+			sb.append(CYAN + c + RESET);
 			sb.append(" ");
 		}
 
@@ -104,18 +110,21 @@ public class Board {
 		// Print out the GUI rows and Board of the game.
 		int l = 0;
 		for (int i = 0; i < rows; i++) {
-			sb.append(i);
+			sb.append(CYAN + i + RESET);
 			sb.append(" ");
+		
 			for (int j = 0; j < columns; j++) {
 				sb.append(" ");
-				sb.append(fields.get(l));
+				sb.append(GREEN + fields.get(l) + RESET);
 				sb.append(" ");
 				l++;
+			
 
 			}
 			sb.append("\n");
+		
 		}
-
+		
 		return sb.toString();
 	}
 
