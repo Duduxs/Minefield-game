@@ -45,6 +45,10 @@ public class Field {
 	public boolean getMarked() {
 		return marked;
 	}
+	
+	void setOpen(boolean open) {
+		this.open = open;
+	}
 
 	public boolean addNeighbor(Field neighbors) {
 

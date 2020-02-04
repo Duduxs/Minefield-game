@@ -3,6 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.minefieldException;
+
 public class Board {
 
 	private int rows;
@@ -24,8 +26,18 @@ public class Board {
 	 * parameter. If the parameters are right open my field
 	 */
 	public void open(int row, int column) {
-		fields.parallelStream().filter(x -> x.getRow() == row && x.getColumns() == column).findFirst()
-				.ifPresent(x -> x.open());
+
+		try {
+			fields.parallelStream().filter(x -> x.getRow() == row && x.getColumns() == column).findFirst()
+					.ifPresent(x -> x.open());
+		} catch (minefieldException e) {
+			/*
+			 * If the user found the bomb, open each camp which have bombs, so throw this
+			 * exception for other class (UI).
+			 */
+			fields.forEach(f -> f.setOpen(true));
+			throw e;
+		}
 	}
 
 	/*
